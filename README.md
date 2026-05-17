@@ -27,7 +27,7 @@ Knowledge graph for fintech regulatory entities, obligations, disclosures, and A
 ## Local run
 
 ```powershell
-Set-Location "C:\Users\chaus\dev\repos\fintech-regulatory-knowledge-graph"
+cd fintech-regulatory-knowledge-graph
 py -3.11 -m pip install -r requirements.txt
 py -3.11 -m app.main
 ```

@@ -31,7 +31,7 @@ class GraphService:
             obligation_count=len(obligations),
             control_count=len(controls),
             high_pressure_entities=[node.label for node in high_pressure],
-            lead_recommendation="Stabilize reserve evidence and supervisory review links before expanding treasury-sweep distribution."
+            lead_recommendation="Review whether reserve evidence and supervisory controls apply to the fictional treasury sweep."
         )
 
     def entity(self, entity_id: str) -> GraphNode:
@@ -94,13 +94,11 @@ class GraphService:
                     "description": node.summary,
                     "jurisdiction": node.jurisdiction,
                     "identifier": node.id,
-                    "isPartOf": node.source_document,
-                    "measurementTechnique": "Risk pressure scoring",
-                    "additionalProperty": {
-                        "@type": "PropertyValue",
-                        "name": "riskPressure",
-                        "value": node.risk_pressure
-                    }
+                    "measurementTechnique": "Illustrative developer-assigned score; not validated",
+                    "additionalProperty": [
+                        {"@type": "PropertyValue", "name": "fixtureSourceLabel", "value": node.source_document},
+                        {"@type": "PropertyValue", "name": "illustrativeRiskPressure", "value": node.risk_pressure},
+                    ],
                 }
             )
 
@@ -125,7 +123,8 @@ class GraphService:
                 },
                 "@type": "Dataset",
                 "name": "Fintech Regulatory Knowledge Graph",
-                "description": "Structured graph connecting regulators, rules, products, obligations, controls, and disclosures for AI-queryable compliance context.",
+                "description": "Synthetic demonstration graph. Relationships, source labels, and scores are not verified legal conclusions or firm evidence.",
+                "creativeWorkStatus": "synthetic demonstration",
                 "creator": {
                     "@type": "Person",
                     "name": "Miz Causevic"

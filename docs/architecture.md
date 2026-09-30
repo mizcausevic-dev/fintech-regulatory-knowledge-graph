@@ -2,14 +2,11 @@
 
 ## Core idea
 
-This project models fintech regulatory pressure as a graph:
+This project demonstrates a possible regulatory graph using entirely synthetic relationships:
 
-- regulators explain jurisdiction and oversight
-- rules explain why pressure exists
-- products explain where pressure is created
-- obligations explain what must happen
-- controls explain how the firm answers the pressure
-- disclosures explain how the story becomes auditable and AI-queryable
+- regulators and rules are named reference categories, not applicability decisions
+- products and firms are fictional fixtures
+- obligations, controls, and disclosures illustrate possible relationships, not verified compliance evidence
 
 ## Local-first graph
 
@@ -19,20 +16,21 @@ The graph is seeded from local Python models so the repo stays one-shot and dete
 - no live SEC or FCA scraping required
 - no credentials required
 
-That makes it much easier to run in a hiring, consulting, or portfolio context while still telling a credible RegTech story.
+This keeps the demo deterministic for portfolio and schema exploration. It cannot establish a real firm's regulatory obligations or control posture.
 
 ## API surface
 
-- `GET /api/summary` returns graph posture
+- `GET /api/summary` returns fixture counts and illustrative scores
 - `GET /api/entities` filters by node type
 - `GET /api/path` explains why two entities are connected
-- `GET /api/export/jsonld` publishes machine-readable evidence for downstream AI and search agents
+- `GET /api/export/jsonld` returns a machine-readable synthetic fixture for schema tests
 
 ## Why JSON-LD matters
 
-This repo is not only a graph exploration demo. It also publishes a structured semantic export, which makes it useful for:
+The JSON-LD export is useful for:
 
-- AI-grounded compliance Q&A
-- internal policy retrieval
-- structured evidence handoff
-- future AEO / GEO style regulatory knowledge publishing
+- testing graph serialization and retrieval interfaces
+- prototyping source-provenance fields and reviewer workflows
+- evaluating how a future source-verified graph might support search and AI retrieval
+
+Before production use, replace every fixture label and edge with a primary-source URL, retrieval date, jurisdiction and product-applicability decision, reviewer approval, and correction path. Do not feed this fixture to an agent as authoritative compliance context.

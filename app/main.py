@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+from html import escape
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
@@ -93,6 +94,7 @@ def shell(title: str, section: str, body: str) -> str:
         color:var(--accent);
         background:rgba(134,202,255,.12);
       }}
+      .nav a:focus-visible {{ outline:3px solid var(--warn); outline-offset:3px; }}
       .hero {{
         display:grid;
         grid-template-columns:1.45fr .95fr;
@@ -113,12 +115,13 @@ def shell(title: str, section: str, body: str) -> str:
       h1,h2,h3 {{
         margin:12px 0 14px;
         font-family:Georgia,serif;
-        letter-spacing:-.05em;
+        letter-spacing:-.025em;
         color:var(--gold);
       }}
-      h1 {{ font-size:68px; line-height:.92; }}
-      h2 {{ font-size:44px; line-height:1.02; }}
-      h3 {{ font-size:30px; line-height:1.02; }}
+      h1 {{ font-size:clamp(40px,4.1vw,64px); line-height:1.06; }}
+      h2 {{ font-size:clamp(30px,3vw,42px); line-height:1.12; }}
+      h3 {{ font-size:clamp(24px,2vw,30px); line-height:1.16; }}
+      .hero-side h3 {{ overflow-wrap:break-word; }}
       p,li {{ color:var(--muted); line-height:1.55; }}
       .lede {{ font-size:22px; max-width:900px; }}
       .metrics,.grid-2,.grid-3 {{
@@ -128,6 +131,7 @@ def shell(title: str, section: str, body: str) -> str:
       .metrics {{ grid-template-columns:repeat(4,1fr); margin-bottom:20px; }}
       .grid-2 {{ grid-template-columns:1.06fr .94fr; }}
       .grid-3 {{ grid-template-columns:repeat(3,1fr); }}
+      .grid-2 > *, .grid-3 > * {{ min-width:0; }}
       .metric,.card,.panel,.export-box {{ padding:22px; }}
       .metric strong {{
         display:block;
@@ -185,12 +189,14 @@ def shell(title: str, section: str, body: str) -> str:
       table {{
         width:100%;
         border-collapse:collapse;
+        table-layout:fixed;
       }}
       th,td {{
         text-align:left;
         padding:14px 12px;
         border-bottom:1px solid rgba(104,142,199,.12);
         vertical-align:top;
+        overflow-wrap:anywhere;
       }}
       th {{
         color:var(--accent);
@@ -204,12 +210,14 @@ def shell(title: str, section: str, body: str) -> str:
       @media (max-width:780px) {{
         main {{ width:calc(100% - 20px); padding:14px; }}
         .hero,.grid-2,.grid-3,.metrics {{ grid-template-columns:1fr; }}
-        h1 {{ font-size:48px; }}
+        h1 {{ font-size:clamp(32px,9vw,48px); }}
+        th,td {{ padding:10px 6px; }}
       }}
     </style>
   </head>
   <body>
     <main>
+      <p class="tag" role="note">Synthetic demonstration · no verified legal analysis or firm evidence</p>
       <section class="topbar">
         <div>
           <span class="brand">FINTECH REGULATORY KNOWLEDGE GRAPH</span>
@@ -229,7 +237,7 @@ def shell(title: str, section: str, body: str) -> str:
 
 app = FastAPI(
     title="Fintech Regulatory Knowledge Graph",
-    description="Local-first graph connecting regulators, rules, products, obligations, controls, and disclosures.",
+    description="Synthetic local demonstration of graph relationships. No rule applicability, source evidence, or legal conclusion is verified.",
     version="1.0.0"
 )
 
@@ -245,20 +253,20 @@ def overview() -> str:
         f"""
         <section class="hero">
           <article>
-            <p class="eyebrow">Regulatory entity intelligence</p>
+            <p class="eyebrow">Illustrative regulatory graph</p>
             <h1>Turn filings, rules, and product obligations into an AI-queryable fintech graph.</h1>
-            <p class="lede">This project connects regulators, rules, products, firms, obligations, controls, and disclosures into one structured graph. The payoff is a compliance surface that can explain why a product carries pressure, what control satisfies that pressure, and what evidence package should carry the story to auditors or AI agents.</p>
+            <p class="lede">Explore how a graph could connect regulators, rules, products, firms, obligations, controls, and disclosures. Every product, score, evidence label, and relationship here is an illustrative fixture requiring counsel and source verification before use.</p>
           </article>
           <article class="hero-side">
-            <div class="nav">
-              <a class="active" href="/">Overview</a>
+            <nav class="nav" aria-label="Demo pages">
+              <a class="active" aria-current="page" href="/">Overview</a>
               <a href="/graph">Graph board</a>
               <a href="/evidence">Evidence export</a>
               <a href="/docs">Docs</a>
-            </div>
-            <p class="eyebrow">Lead recommendation</p>
+            </nav>
+            <p class="eyebrow">Sample review prompt</p>
             <h3>{summary.lead_recommendation}</h3>
-            <p>The highest-pressure cluster in the sample graph is reserve evidence around treasury-sweep exposure. That makes the artifact commercially legible right away for fintech, RegTech, and compliance teams.</p>
+            <p>The sample graph highlights reserve evidence around a fictional treasury sweep. The mapping is a hypothesis for review, not a determination that a rule applies to a real product.</p>
           </article>
         </section>
         <section class="metrics">
@@ -308,18 +316,18 @@ def graph_board() -> str:
           <article>
             <p class="eyebrow">Graph board</p>
             <h1>Regulators, products, obligations, and controls all sit in one traversable decision surface.</h1>
-            <p class="lede">Instead of reading one filing or one policy at a time, this board shows how the graph clusters around practical questions: which products carry pressure, which rules explain it, and which controls or disclosures close the loop.</p>
+            <p class="lede">This board demonstrates how a candidate graph might connect products, rules, and controls. Its relationships and scores are synthetic and have not been validated against a firm's facts or current law.</p>
           </article>
           <article class="hero-side">
-            <div class="nav">
+            <nav class="nav" aria-label="Demo pages">
               <a href="/">Overview</a>
-              <a class="active" href="/graph">Graph board</a>
+              <a class="active" aria-current="page" href="/graph">Graph board</a>
               <a href="/evidence">Evidence export</a>
               <a href="/docs">Docs</a>
-            </div>
+            </nav>
             <p class="eyebrow">Cluster lens</p>
             <h3>Four clusters drive the story.</h3>
-            <p>Regulators explain jurisdiction. Products create exposure. Obligations describe what must happen. Controls and disclosures prove that the firm can answer for it.</p>
+            <p>The fixture groups regulators, products, obligations, and possible controls for review. Its edges do not establish jurisdiction, applicability, or control effectiveness.</p>
           </article>
         </section>
         <section class="grid-3">
@@ -343,25 +351,25 @@ def evidence_export() -> str:
         <section class="hero">
           <article>
             <p class="eyebrow">Evidence export</p>
-            <h1>The graph can publish machine-readable compliance context, not just pretty diagrams.</h1>
-            <p class="lede">This lane shows the same graph as a structured JSON-LD export. That makes it legible to downstream AI systems, search agents, and internal compliance tooling that needs structured entities rather than screenshots or prose alone.</p>
+            <h1>Inspect synthetic relationship paths and a JSON-LD graph export.</h1>
+            <p class="lede">This lane exports the synthetic graph as JSON-LD for schema testing. It is not a source-verified evidence package or a basis for an automated compliance answer.</p>
           </article>
           <article class="hero-side">
-            <div class="nav">
+            <nav class="nav" aria-label="Demo pages">
               <a href="/">Overview</a>
               <a href="/graph">Graph board</a>
-              <a class="active" href="/evidence">Evidence export</a>
+              <a class="active" aria-current="page" href="/evidence">Evidence export</a>
               <a href="/docs">Docs</a>
-            </div>
+            </nav>
             <p class="eyebrow">Export use case</p>
-            <h3>Answer-ready compliance context.</h3>
-            <p>Every exported node carries entity type, jurisdiction, source document, and risk pressure so agents can cite it instead of guessing what the compliance team meant.</p>
+            <h3>Schema test only.</h3>
+            <p>Exported source labels are fixture text, and risk scores are illustrative. A production graph needs source URLs, retrieval dates, reviewer approval, and applicability decisions before agents cite it.</p>
           </article>
         </section>
         <section class="grid-2">
           <article class="panel">
             <p class="eyebrow">Lead evidence chains</p>
-            <h2>Paths that auditors and AI agents can explain.</h2>
+            <h2>Sample paths to test and review.</h2>
             <table>
               <thead><tr><th>Start</th><th>End</th><th>Path</th></tr></thead>
               <tbody>
@@ -372,7 +380,7 @@ def evidence_export() -> str:
           <article class="export-box">
             <p class="eyebrow">JSON-LD sample</p>
             <h2>Structured export</h2>
-            <pre>{export_json}</pre>
+            <pre>{escape(export_json)}</pre>
           </article>
         </section>
         """

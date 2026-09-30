@@ -36,3 +36,12 @@ def test_jsonld_export():
     payload = response.json()
     assert payload["@type"] == "Dataset"
     assert "@graph" in payload
+    assert payload["creativeWorkStatus"] == "synthetic demonstration"
+    assert "not verified legal conclusions" in payload["description"]
+
+
+def test_ui_discloses_synthetic_status():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "Synthetic demonstration" in response.text
+    assert "no verified legal analysis" in response.text
